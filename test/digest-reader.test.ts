@@ -28,7 +28,7 @@ describe('readNight on runs/2026-10-28.jsonl', () => {
 
   it('keeps the last error of a failed job', () => {
     const row = night.rows.find((r) => r.job === 'notes/backup')!;
-    expect(row).toMatchObject({ runs: 1, lastStatus: 'fail', lastError: 'quota exceeded', owner: 'lane-07' });
+    expect(row).toMatchObject({ runs: 1, fails: 1, lastStatus: 'fail', lastError: 'quota exceeded', owner: 'lane-07' });
   });
 
   it('keeps a row whose owner is null', () => {
@@ -67,7 +67,7 @@ describe('readNight edge cases', () => {
     const night = readNight(dir, '2026-01-02')!;
     expect(night.badLines).toBe(3);
     expect(night.rows).toEqual([
-      { job: 'a', owner: null, runs: 2, retries: 1, lastStatus: 'retry', lastError: 'boom', firstAt: 't1', lastAt: 't3' },
+      { job: 'a', owner: null, runs: 2, retries: 1, fails: 0, lastStatus: 'retry', lastError: 'boom', firstAt: 't1', lastAt: 't3' },
     ]);
   });
 });
